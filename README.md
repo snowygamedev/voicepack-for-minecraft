@@ -204,5 +204,9 @@ format.
 ## License
 
 MIT — see [LICENSE](LICENSE). This covers the app's code only, not Minecraft's name or
-assets. The bundled ffmpeg binary is distributed under its own license (see
-`ffmpeg.exe.LICENSE` inside the app).
+assets.
+
+The installers also bundle **FFmpeg, which is GPL v3**, as a separate executable.
+That license applies to the bundled binary, not to VoicePack's own code. Full
+details and a link to the corresponding FFmpeg source are in
+[THIRD-PARTY-LICENSES.md](THIRD-PARTY-LICENSES.md).

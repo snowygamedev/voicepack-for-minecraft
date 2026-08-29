@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
 
+# This repository is public, so pull requests from forks run this workflow.
+# Nothing here needs write access or secrets; state that outright rather than
+# inheriting whatever the repository default happens to be.
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
