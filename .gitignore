@@ -59,3 +59,12 @@ Desktop.ini
 
 # Misc local files
 *.local
+
+# Driver screenshots
+.shots/
+
+# Stray tsc output — these directories hold TypeScript sources only
+electron.vite.config.js
+electron.vite.config.d.ts
+tests/**/*.js
+tests/**/*.d.ts

@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink-950 text-ink-100 antialiased;
+    font-family:
+      ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    /* A desktop app shouldn't feel like a web page. */
+    user-select: none;
+    overflow: hidden;
+  }
+
+  /* Text the user is meant to read closely or copy stays selectable. */
+  input,
+  textarea,
+  code,
+  .selectable {
+    user-select: text;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-ink-700;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-ink-600;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-grass-400 ring-offset-2 ring-offset-ink-950;
+  }
+}
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md px-3 py-1.5 text-sm
+           font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-grass-500 text-white hover:bg-grass-400;
+  }
+  .btn-ghost {
+    @apply btn text-ink-200 hover:bg-ink-800 hover:text-ink-100;
+  }
+  .btn-outline {
+    @apply btn border border-ink-700 text-ink-200 hover:border-ink-600 hover:bg-ink-800;
+  }
+  .btn-danger {
+    @apply btn bg-redstone-600 text-white hover:bg-redstone-500;
+  }
+  .field {
+    @apply w-full rounded-md border border-ink-700 bg-ink-900 px-3 py-1.5 text-sm
+           text-ink-100 placeholder:text-ink-500 focus:border-grass-500;
+  }
+  .label {
+    @apply mb-1 block text-xs font-medium uppercase tracking-wide text-ink-400;
+  }
+  .panel {
+    @apply rounded-lg border border-ink-800 bg-ink-900;
+  }
+}

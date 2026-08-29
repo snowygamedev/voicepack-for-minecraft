@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VoicePack for Minecraft</title>
+    <!--
+      Locked-down CSP: the renderer loads nothing over the network and never
+      evaluates strings, so a malformed project.json can't become code
+      execution. 'unsafe-inline' for styles is required by the dev server.
+
+      `blob:` in script-src/worker-src is what lets the microphone work: the
+      capture AudioWorklet is compiled from a source string into a blob URL, and
+      worklet modules are fetched under the *script* directives. Blocking it
+      fails `addModule()`, which by spec rejects with a bare AbortError — the
+      "user aborted a request" that record used to die with.
+    -->
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; script-src 'self' blob:; worker-src 'self' blob:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; media-src 'self' blob:; connect-src 'self' blob:"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

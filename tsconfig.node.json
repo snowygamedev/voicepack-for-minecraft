@@ -1,0 +1,27 @@
+{
+  "extends": "@electron-toolkit/tsconfig/tsconfig.node.json",
+  "include": [
+    "electron.vite.config.ts",
+    "src/main/**/*",
+    "src/preload/**/*",
+    "src/shared/**/*",
+    "tests/**/*"
+  ],
+  "compilerOptions": {
+    "composite": true,
+    // These projects are typecheck-only — Vite/esbuild does the real building.
+    // `composite` (needed for the project references in tsconfig.json) implies
+    // emit, and with no outDir that emit lands *next to the sources*, silently
+    // overwriting hand-written files like src/preload/index.d.ts. Sending it to
+    // a throwaway directory makes a stray `tsc -p` harmless.
+    "outDir": "node_modules/.cache/tsc-node",
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "types": ["electron-vite/node", "node"],
+    // No `baseUrl`: it is deprecated in TS 6 and removed in 7. Since TS 4.4
+    // `paths` resolves relative to this file, which is what we want anyway.
+    "paths": {
+      "@shared/*": ["./src/shared/*"]
+    }
+  }
+}

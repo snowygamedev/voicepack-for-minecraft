@@ -1,0 +1,46 @@
+appId: dev.snowy.voicepack
+productName: VoicePack for Minecraft
+directories:
+  buildResources: resources
+  output: release
+files:
+  - out/**
+  - '!**/*.map'
+asarUnpack:
+  # ffmpeg must stay a real file on disk so it can be exec'd — a binary inside
+  # an asar cannot be spawned. services/ffmpeg.ts rewrites the path to match.
+  - '**/node_modules/ffmpeg-static/**'
+
+# Installers are published to GitHub Releases by .github/workflows/release.yml.
+# owner/repo are stated outright so publishing never depends on electron-builder
+# guessing the target from the checkout's git remote.
+publish:
+  provider: github
+  owner: snowygamedev
+  repo: voicepack-for-minecraft
+
+win:
+  target: [nsis]
+  artifactName: VoicePack-${version}-windows-setup.${ext}
+nsis:
+  oneClick: false
+  allowToChangeInstallationDirectory: true
+  # Per-user install needs no admin prompt, which is one less scary dialog.
+  perMachine: false
+  shortcutName: VoicePack
+
+mac:
+  category: public.app-category.music
+  artifactName: VoicePack-${version}-mac-${arch}.${ext}
+  target:
+    - target: dmg
+      arch: [x64, arm64]
+  # Microphone access prompt text — macOS refuses getUserMedia without it.
+  extendInfo:
+    NSMicrophoneUsageDescription: VoicePack records your microphone to build Minecraft sound packs.
+
+linux:
+  target: [AppImage]
+  artifactName: VoicePack-${version}-linux-${arch}.${ext}
+  category: AudioVideo
+  synopsis: Build Minecraft resource packs from sounds you record yourself

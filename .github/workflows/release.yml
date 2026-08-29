@@ -1,0 +1,65 @@
+name: Release
+
+# Cutting a release:
+#   1. bump "version" in package.json
+#   2. git tag v0.1.0 && git push --tags
+# This builds installers for all three platforms and attaches them to a draft
+# GitHub Release, which you then review and publish.
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      # One platform failing shouldn't throw away the other two builds.
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            script: dist:win
+          - os: macos-latest
+            script: dist:mac
+          - os: ubuntu-latest
+            script: dist:linux
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Regenerate the app icon
+        # Keeps the packaged icon in step with scripts/make-icon.mjs rather than
+        # trusting whatever PNG happens to be committed.
+        run: npm run icon
+
+      - name: Build and publish installers
+        run: npm run ${{ matrix.script }} -- --publish always
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # We ship unsigned builds. Without this, electron-builder hunts for a
+          # signing identity on macOS and fails the job when it finds none.
+          CSC_IDENTITY_AUTO_DISCOVERY: false
+
+      - name: Keep the installers even if publishing failed
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: installers-${{ matrix.os }}
+          path: |
+            release/*.exe
+            release/*.dmg
+            release/*.AppImage
+          if-no-files-found: ignore
