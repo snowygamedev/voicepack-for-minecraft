@@ -13,7 +13,7 @@ Record Minecraft's sounds in your own voice, and get back a resource pack you ca
 | Windows | `VoicePack-x.y.z-windows-setup.exe` |
 | Mac (Apple Silicon — M1 and newer) | `VoicePack-x.y.z-mac-arm64.dmg` |
 | Mac (Intel) | `VoicePack-x.y.z-mac-x64.dmg` |
-| Linux | `VoicePack-x.y.z-linux-x64.AppImage` |
+| Linux | `VoicePack-x.y.z-linux-x86_64.AppImage` |
 
 Nothing else to install — ffmpeg and everything else needed is inside the download.
 

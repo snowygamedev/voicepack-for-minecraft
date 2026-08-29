@@ -41,6 +41,9 @@ mac:
 
 linux:
   target: [AppImage]
+  # NB: ${arch} renders as "x86_64" here, not "x64" as it does for mac/win —
+  # electron-builder follows AppImage's own naming convention. The README's
+  # download table has to spell it that way or the link 404s.
   artifactName: VoicePack-${version}-linux-${arch}.${ext}
   category: AudioVideo
   synopsis: Build Minecraft resource packs from sounds you record yourself
